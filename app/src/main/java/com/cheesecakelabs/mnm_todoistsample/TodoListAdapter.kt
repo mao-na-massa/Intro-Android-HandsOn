@@ -8,11 +8,16 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 
-class TodoListAdapter(var context: Context, var tasks: ArrayList<TaskModel>): RecyclerView.Adapter<TodoListViewHolder>() {
+class TodoListAdapter(var context: Context, var tasks: ArrayList<TaskModel>, var callback: (task: TaskModel?) -> Unit): RecyclerView.Adapter<TodoListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
         var view = LayoutInflater.from(context).inflate(R.layout.todo_list_viewholder, parent, false)
-        return TodoListViewHolder(view)
+        var viewHolder = TodoListViewHolder(view)
+        viewHolder.checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
+            viewHolder.taskModel?.isDone = isChecked
+            callback(viewHolder.taskModel)
+        }
+        return viewHolder
     }
 
     override fun getItemCount(): Int {
@@ -35,9 +40,10 @@ class TodoListViewHolder(var view: View): RecyclerView.ViewHolder(view) {
         textView = view.findViewById(R.id.taskText)
         dateView = view.findViewById(R.id.taskDateText)
         checkBox = view.findViewById(R.id.taskIsDoneCheck)
-        checkBox?.setOnCheckedChangeListener({ buttonView, isChecked ->
-            taskModel?.isDone = isChecked
-        })
+//        checkBox?.setOnCheckedChangeListener({ buttonView, isChecked ->
+//            taskModel?.isDone = isChecked
+//            callback(taskModel)
+//        })
     }
 
     fun setup(task: TaskModel) {
