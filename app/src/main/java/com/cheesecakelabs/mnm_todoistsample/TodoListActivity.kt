@@ -53,41 +53,13 @@ class TodoListActivity : AppCompatActivity() {
     }
 
     fun addNewTask() {
-        var description = newTaskEdit.text.toString()
-        listOfTasks.add(description)
-        totalCount = totalCount + 1
-        todoList.adapter.notifyDataSetChanged()
-        setCounter()
-        clearNewTask()
     }
 
     fun getNumberOfPendingTasks(): Int {
-        var numberOfPendingTasks = 0
-        for (task in listOfTasks) {
-            var found = false
-            for (doneTask in listOfDoneTasks) {
-                if (doneTask == task) {
-                    found = true
-                }
-            }
-            if (!found) {
-                numberOfPendingTasks++
-            }
-        }
-        return numberOfPendingTasks
+        return -1
     }
 
     fun setCounter() {
-        var numberOfPending = getNumberOfPendingTasks()
-        countPendingText.text = numberOfPending.toString()
-        countTotalText.text = listOfTasks.size.toString()
-        if (numberOfPending > 5) {
-            countStatusView.setBackgroundColor(Color.parseColor("#CC0000"))
-        } else if (numberOfPending > 2) {
-            countStatusView.setBackgroundColor(Color.parseColor("#FFFF00"))
-        } else {
-            countStatusView.setBackgroundColor(Color.parseColor("#00CC00"))
-        }
     }
 
 }
