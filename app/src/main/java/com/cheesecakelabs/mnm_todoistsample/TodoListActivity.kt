@@ -15,11 +15,15 @@ class TodoListActivity : AppCompatActivity() {
 
     /*
     *
-    * Variáveis e tipos de dados
+    * Atividade: Implementar getNumberOfPendingTasks e setCounter
+    *   - Utilizando um array de tarefas feitas
+    *   - Encontre o bug, por que acontece?
+    *   - Existe uma outra forma de implementar a mesma funcionalidade?
     *
     * */
 
-    var listOfTasks = mutableListOf<TaskModel>()
+    var listOfTasks = mutableListOf<String>()
+    var listOfDoneTasks = mutableListOf<String>()
     var totalCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,26 +31,18 @@ class TodoListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_todo_list)
 
         todoList.layoutManager = LinearLayoutManager(this)
-        todoList.adapter = TodoListAdapter(this, listOfTasks as ArrayList<TaskModel>, { task: TaskModel? ->
-            Log.d("MNM_DEBUG", task.toString())
+        todoList.adapter = TodoListAdapter(this, listOfTasks as ArrayList<String>, { task: String?, isChecked: Boolean ->
+            if (isChecked) {
+                listOfDoneTasks.add(task!!)
+            } else {
+                listOfDoneTasks.remove(task!!)
+            }
             setCounter()
         })
 
         newTaskButton.setOnClickListener {
             addNewTask()
         }
-    }
-
-    fun addNewTask() {
-        var description = newTaskEdit.text.toString()
-        var task = TaskModel()
-        task.description = description
-        listOfTasks.add(task)
-        totalCount = totalCount + 1
-        todoList.adapter.notifyDataSetChanged()
-        todoList.scrollToPosition(listOfTasks.size - 1)
-        clearNewTask()
-        setCounter()
     }
 
     fun clearNewTask() {
@@ -56,34 +52,42 @@ class TodoListActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(newTaskEdit.getWindowToken(), 0)
     }
 
-    fun setCounter() {
-        var pendingCount = 0
+    fun addNewTask() {
+        var description = newTaskEdit.text.toString()
+        listOfTasks.add(description)
+        totalCount = totalCount + 1
+        todoList.adapter.notifyDataSetChanged()
+        setCounter()
+        clearNewTask()
+    }
+
+    fun getNumberOfPendingTasks(): Int {
+        var numberOfPendingTasks = 0
         for (task in listOfTasks) {
-            if (!task.isDone) {
-                pendingCount = pendingCount + 1
+            var found = false
+            for (doneTask in listOfDoneTasks) {
+                if (doneTask == task) {
+                    found = true
+                }
+            }
+            if (!found) {
+                numberOfPendingTasks++
             }
         }
-        countPendingText.text = pendingCount.toString()
+        return numberOfPendingTasks
+    }
+
+    fun setCounter() {
+        var numberOfPending = getNumberOfPendingTasks()
+        countPendingText.text = numberOfPending.toString()
         countTotalText.text = listOfTasks.size.toString()
-        if (pendingCount > 5) {
+        if (numberOfPending > 5) {
             countStatusView.setBackgroundColor(Color.parseColor("#CC0000"))
-        } else if (pendingCount > 2) {
+        } else if (numberOfPending > 2) {
             countStatusView.setBackgroundColor(Color.parseColor("#FFFF00"))
         } else {
             countStatusView.setBackgroundColor(Color.parseColor("#00CC00"))
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        Utils.saveTasksToSharedPreferences(this, listOfTasks)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        listOfTasks.clear()
-        listOfTasks.addAll(Utils.getTasksFromSharedPreferences(this))
-        todoList.adapter.notifyDataSetChanged()
-        setCounter()
-    }
 }
