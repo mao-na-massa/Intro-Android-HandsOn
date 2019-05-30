@@ -53,13 +53,37 @@ class TodoListActivity : AppCompatActivity() {
     }
 
     fun addNewTask() {
+        // Pega a descrição do texto e adicionar em uma variável
+        var tarefa = newTaskEdit.text.toString()
+        listOfTasks.add(tarefa)
+        todoList.adapter.notifyDataSetChanged()
+        clearNewTask()
+        setCounter()
     }
 
     fun getNumberOfPendingTasks(): Int {
-        return -1
+        var tarefasPendentes = 0
+        for (tarefa in listOfTasks) {
+            println("Lista de tarefas: ${tarefa}")
+            var achou = false
+            for (tarefaFeita in listOfDoneTasks) {
+                println("Lista de tarefas feitas: ${tarefaFeita}")
+                if (tarefa == tarefaFeita) {
+                    achou = true
+                }
+            }
+            if (!achou) {
+                tarefasPendentes = tarefasPendentes + 1
+            }
+        }
+        return tarefasPendentes
     }
 
     fun setCounter() {
+        var tarefasPendentes = listOfTasks.size - listOfDoneTasks.size
+        var totalTarefas = listOfTasks.size
+        countPendingText.text = "${tarefasPendentes}"
+        countTotalText.text = "${totalTarefas}"
     }
 
 }
