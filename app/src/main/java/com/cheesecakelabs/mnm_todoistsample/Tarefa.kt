@@ -4,7 +4,7 @@ import android.text.format.DateFormat
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
-class TaskModel {
+class Tarefa {
 
     @SerializedName("description")
     var description: String = ""
@@ -13,4 +13,10 @@ class TaskModel {
     @SerializedName("isDone")
     var isDone: Boolean = false
 
+    fun isPriority(): Boolean {
+        if (description.contains("#1")) {
+            return true
+        }
+        return false
+    }
 }
