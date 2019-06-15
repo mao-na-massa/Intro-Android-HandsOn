@@ -14,7 +14,6 @@ import java.util.*
 class TodoListActivity : AppCompatActivity() {
 
     var lista: ListaTarefas = ListaTarefas()
-    var totalCount: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +31,9 @@ class TodoListActivity : AppCompatActivity() {
 
     fun addNewTask() {
         var description = newTaskEdit.text.toString()
-        var task = Tarefa()
-        task.description = description
-        lista.tarefas.add(task)
-        totalCount = totalCount + 1
+        // Como fazemos para adicionar uma nova tarefa?
+
         todoList.adapter.notifyDataSetChanged()
-        todoList.scrollToPosition(lista.tarefas.size - 1)
         clearNewTask()
         setCounter()
     }
@@ -51,13 +47,8 @@ class TodoListActivity : AppCompatActivity() {
 
     fun setCounter() {
         var pendingCount = 0
-        for (task in lista.tarefas) {
-            if (!task.isDone) {
-                pendingCount = pendingCount + 1
-            }
-        }
-        countPendingText.text = pendingCount.toString()
-        countTotalText.text = lista.tarefas.size.toString()
+        // Como implementamos o contador dessa vez?
+
         if (pendingCount > 5) {
             countStatusView.setBackgroundColor(Color.parseColor("#CC0000"))
         } else if (pendingCount > 2) {
@@ -74,7 +65,7 @@ class TodoListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        lista.tarefas.clear()
+//        lista.tarefas.clear()
         lista = Utils.getLista(this)
         (todoList.adapter as TodoListAdapter).lista = lista
         todoList.adapter.notifyDataSetChanged()

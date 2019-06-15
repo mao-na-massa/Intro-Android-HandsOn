@@ -16,18 +16,20 @@ class TodoListAdapter(var context: Context, open var lista: ListaTarefas, var ca
         var view = LayoutInflater.from(context).inflate(R.layout.todo_list_viewholder, parent, false)
         var viewHolder = TodoListViewHolder(view)
         viewHolder.checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
-            viewHolder.taskModel?.isDone = isChecked
+            // O que devemos fazer quando o checkbox é marcado?
             callback(viewHolder.taskModel)
         }
         return viewHolder
     }
 
     override fun getItemCount(): Int {
-        return lista.tarefas.size
+        // Devemos retornar o número de tarefas no Adapter
+        return 0
     }
 
     override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
-        holder.setup(lista.tarefas[position])
+        // Precisamos montar a célula com o dado
+//        holder.setup(lista.tarefas[position])
     }
 }
 
@@ -44,16 +46,9 @@ class TodoListViewHolder(var view: View): RecyclerView.ViewHolder(view) {
         checkBox = view.findViewById(R.id.taskIsDoneCheck)
     }
 
+    // Aqui devemos montar o layout
     fun setup(task: Tarefa) {
         taskModel = task
-        textView?.text = task.description
-        dateView?.text = task.date
-        checkBox?.isChecked = task.isDone
-        if (task.isPriority()) {
-            view.setBackgroundColor(Color.parseColor("#CC0000"))
-        } else {
-            view.setBackgroundColor(Color.parseColor("#ffffff"))
-        }
     }
 
 }
