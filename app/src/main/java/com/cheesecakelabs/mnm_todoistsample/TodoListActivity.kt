@@ -32,11 +32,10 @@ class TodoListActivity : AppCompatActivity() {
         }
 
         switchTarefas.setOnCheckedChangeListener { buttonView, isChecked ->
-            lista.mostrarTodas = isChecked
-            todoList.adapter.notifyDataSetChanged()
+            // O que fazer quando o toggle é ativado ou desativado?
         }
 
-        nomeListaText.text = lista.nomeDaLista
+        nomeListaText.text = "QUAL O NOME DA LISTA?"
     }
 
     fun addNewTask() {
