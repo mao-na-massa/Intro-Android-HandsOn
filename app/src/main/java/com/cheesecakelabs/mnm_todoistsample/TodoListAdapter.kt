@@ -17,22 +17,32 @@ class TodoListAdapter(var context: Context, open var lista: ListaTarefas, var ca
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoListViewHolder {
         var view = LayoutInflater.from(context).inflate(R.layout.todo_list_viewholder, parent, false)
         var viewHolder = TodoListViewHolder(view)
-        viewHolder.checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
-            // O que devemos fazer quando o checkbox é marcado?
-            viewHolder.taskModel?.feito = isChecked
-            callback(viewHolder.taskModel)
-        }
+
         return viewHolder
     }
 
     override fun getItemCount(): Int {
         // Devemos retornar o número de tarefas no Adapter
-        return lista.tarefas.size
+        if (lista.mostrarTodas) {
+            return lista.tarefasTodas.size
+        }
+        return lista.tarefasNaoFeitas.size
     }
 
     override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
         // Precisamos montar a célula com o dado
-        holder.setup(lista.tarefas[position])
+        holder.checkBox?.setOnCheckedChangeListener(null)
+        if (lista.mostrarTodas) {
+            holder.setup(lista.tarefasTodas[position])
+        } else {
+            holder.setup(lista.tarefasNaoFeitas[position])
+        }
+        holder.checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
+            // O que devemos fazer quando o checkbox é marcado?
+            holder.taskModel?.feito = isChecked
+            callback(holder.taskModel)
+            notifyDataSetChanged()
+        }
     }
 }
 

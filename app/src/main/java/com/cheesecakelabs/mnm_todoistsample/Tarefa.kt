@@ -6,8 +6,11 @@ import java.util.*
 
 class Tarefa {
 
+    @SerializedName("descricao")
     var descricao: String = ""
+    @SerializedName("data")
     var data: Date = Date()
+    @SerializedName("feito")
     var feito: Boolean = false
 
     fun prioritaria(): Boolean {

@@ -5,6 +5,52 @@
     android:layout_width="match_parent"
     android:orientation="vertical">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="44dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/nomeListaText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/textMostrar"
+                android:layout_alignParentStart="true"
+                android:textAlignment="viewStart"/>
+
+            <Switch
+                android:id="@+id/switchTarefas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:checked="true"
+                android:paddingRight="22dp"/>
+
+            <TextView
+                android:id="@+id/textMostrar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MOSTRAR TODAS?"
+                android:layout_toLeftOf="@+id/switchTarefas"
+                android:layout_alignBaseline="@+id/switchTarefas"/>
+
+        </RelativeLayout>
+
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import kotlinx.android.synthetic.main.activity_todo_list.*
@@ -20,21 +21,29 @@ class TodoListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_todo_list)
 
         todoList.layoutManager = LinearLayoutManager(this)
-        todoList.adapter = TodoListAdapter(this, lista, { task: Tarefa? ->
+        todoList.adapter = TodoListAdapter(this, lista) { tarefa: Tarefa? ->
+            // O que devemos fazer quando marcar uma tarefa?
+            lista.marcarTarefaComoFeita(tarefa!!)
             setCounter()
-        })
+        }
 
         newTaskButton.setOnClickListener {
             addNewTask()
         }
+
+        switchTarefas.setOnCheckedChangeListener { buttonView, isChecked ->
+            lista.mostrarTodas = isChecked
+            todoList.adapter.notifyDataSetChanged()
+        }
+
+        nomeListaText.text = lista.nomeDaLista
     }
 
     fun addNewTask() {
         var description = newTaskEdit.text.toString()
-        // Como fazemos para adicionar uma nova tarefa?
         var tarefa = Tarefa()
         tarefa.descricao = description
-        lista.tarefas.add(tarefa)
+        lista.adicionarNovaTarefa(tarefa)
 
 
         todoList.adapter.notifyDataSetChanged()
@@ -50,21 +59,12 @@ class TodoListActivity : AppCompatActivity() {
     }
 
     fun setCounter() {
-        var pendingCount = 0
-        // Como implementamos o contador dessa vez?
+        countPendingText.text = lista.tarefasNaoFeitas.size.toString()
+        countTotalText.text = lista.tarefasTodas.size.toString()
 
-        for(tarefa in lista.tarefas) {
-            if (!tarefa.feito) {
-                pendingCount += 1
-            }
-        }
-
-        countPendingText.text = pendingCount.toString()
-        countTotalText.text = lista.tarefas.size.toString()
-
-        if (pendingCount > 5) {
+        if (lista.tarefasNaoFeitas.size > 5) {
             countStatusView.setBackgroundColor(Color.parseColor("#CC0000"))
-        } else if (pendingCount > 2) {
+        } else if (lista.tarefasNaoFeitas.size > 2) {
             countStatusView.setBackgroundColor(Color.parseColor("#FFFF00"))
         } else {
             countStatusView.setBackgroundColor(Color.parseColor("#00CC00"))
@@ -78,7 +78,6 @@ class TodoListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-//        lista.tarefas.clear()
         lista = Utils.getLista(this)
         (todoList.adapter as TodoListAdapter).lista = lista
         todoList.adapter.notifyDataSetChanged()
