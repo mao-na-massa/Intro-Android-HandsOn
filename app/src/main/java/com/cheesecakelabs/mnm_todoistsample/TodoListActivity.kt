@@ -32,6 +32,10 @@ class TodoListActivity : AppCompatActivity() {
     fun addNewTask() {
         var description = newTaskEdit.text.toString()
         // Como fazemos para adicionar uma nova tarefa?
+        var tarefa = Tarefa()
+        tarefa.descricao = description
+        lista.tarefas.add(tarefa)
+
 
         todoList.adapter.notifyDataSetChanged()
         clearNewTask()
@@ -48,6 +52,15 @@ class TodoListActivity : AppCompatActivity() {
     fun setCounter() {
         var pendingCount = 0
         // Como implementamos o contador dessa vez?
+
+        for(tarefa in lista.tarefas) {
+            if (!tarefa.feito) {
+                pendingCount += 1
+            }
+        }
+
+        countPendingText.text = pendingCount.toString()
+        countTotalText.text = lista.tarefas.size.toString()
 
         if (pendingCount > 5) {
             countStatusView.setBackgroundColor(Color.parseColor("#CC0000"))

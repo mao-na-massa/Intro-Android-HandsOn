@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 class TodoListAdapter(var context: Context, open var lista: ListaTarefas, var callback: (task: Tarefa?) -> Unit): RecyclerView.Adapter<TodoListViewHolder>() {
 
@@ -17,6 +19,7 @@ class TodoListAdapter(var context: Context, open var lista: ListaTarefas, var ca
         var viewHolder = TodoListViewHolder(view)
         viewHolder.checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
             // O que devemos fazer quando o checkbox é marcado?
+            viewHolder.taskModel?.feito = isChecked
             callback(viewHolder.taskModel)
         }
         return viewHolder
@@ -24,12 +27,12 @@ class TodoListAdapter(var context: Context, open var lista: ListaTarefas, var ca
 
     override fun getItemCount(): Int {
         // Devemos retornar o número de tarefas no Adapter
-        return 0
+        return lista.tarefas.size
     }
 
     override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
         // Precisamos montar a célula com o dado
-//        holder.setup(lista.tarefas[position])
+        holder.setup(lista.tarefas[position])
     }
 }
 
@@ -47,8 +50,18 @@ class TodoListViewHolder(var view: View): RecyclerView.ViewHolder(view) {
     }
 
     // Aqui devemos montar o layout
-    fun setup(task: Tarefa) {
-        taskModel = task
+    fun setup(tarefa: Tarefa) {
+        taskModel = tarefa
+        textView?.text = tarefa.descricao
+        dateView?.text = SimpleDateFormat("dd/MM/YYYY hh:mm").format(tarefa.data)
+        checkBox?.isChecked = tarefa.feito
+
+        if (tarefa.prioritaria()) {
+            view.setBackgroundColor(Color.parseColor("#CC0000"))
+        } else {
+            view.setBackgroundColor(Color.parseColor("#FFFFFF"))
+        }
+
     }
 
 }
