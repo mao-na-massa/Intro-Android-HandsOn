@@ -23,13 +23,24 @@ class TodoListAdapter(var context: Context, open var lista: ListaTarefas, var ca
 
     override fun getItemCount(): Int {
         // Como mostrar as tarefas feitas e não feitas?
-        return lista.tarefasTodas.size
+        if (!lista.mostrarTodasTarefas) {
+            return lista.tarefasNaoFeitas.size
+        } else {
+            return lista.tarefasTodas.size
+        }
     }
 
     override fun onBindViewHolder(holder: TodoListViewHolder, position: Int) {
         // Precisamos montar a célula com o dado
         holder.checkBox?.setOnCheckedChangeListener(null)
-        holder.setup(lista.tarefasTodas[position])
+
+        if (lista.mostrarTodasTarefas) {
+            holder.setup(lista.tarefasTodas[position])
+        } else {
+            holder.setup(lista.tarefasNaoFeitas[position])
+        }
+
+
         holder.checkBox?.setOnCheckedChangeListener { buttonView, isChecked ->
             // O que devemos fazer quando o checkbox é marcado?
             holder.taskModel?.feito = isChecked

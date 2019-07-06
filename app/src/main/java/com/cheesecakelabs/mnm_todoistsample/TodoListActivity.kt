@@ -2,11 +2,13 @@ package com.cheesecakelabs.mnm_todoistsample
 
 import android.content.Context
 import android.graphics.Color
+import android.opengl.Visibility
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_todo_list.*
 import android.view.inputmethod.InputMethodManager
 import java.util.*
@@ -33,9 +35,24 @@ class TodoListActivity : AppCompatActivity() {
 
         switchTarefas.setOnCheckedChangeListener { buttonView, isChecked ->
             // O que fazer quando o toggle é ativado ou desativado?
+            lista.mostrarTodasTarefas = isChecked
+            todoList.adapter.notifyDataSetChanged()
         }
 
-        nomeListaText.text = "QUAL O NOME DA LISTA?"
+        lista.nome = "LISTA"
+
+        nomeListaText.text = lista.nome
+
+        nomeListaText.setOnClickListener {
+            atualizarNomeLayout.visibility = View.VISIBLE
+        }
+
+        atualizarNomeButton.setOnClickListener {
+            lista.nome = atualizarNomeText.text.toString()
+            nomeListaText.text = lista.nome
+            atualizarNomeLayout.visibility = View.GONE
+        }
+
     }
 
     fun addNewTask() {
@@ -43,7 +60,6 @@ class TodoListActivity : AppCompatActivity() {
         var tarefa = Tarefa()
         tarefa.descricao = description
         lista.adicionarNovaTarefa(tarefa)
-
 
         todoList.adapter.notifyDataSetChanged()
         clearNewTask()
