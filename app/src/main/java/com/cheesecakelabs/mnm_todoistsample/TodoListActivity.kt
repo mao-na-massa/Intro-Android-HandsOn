@@ -16,11 +16,15 @@ import java.util.*
 
 class TodoListActivity : AppCompatActivity() {
 
-    var lista: ListaTarefas = ListaTarefas()
+    var lista: ListaTarefas = ListaTarefas("LISTA")
+    var nome: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_todo_list)
+
+        lista = intent.extras.getParcelable<ListaTarefas>("LISTA_TAREFA")
+        nome = lista.nome
 
         todoList.layoutManager = LinearLayoutManager(this)
         todoList.adapter = TodoListAdapter(this, lista) { tarefa: Tarefa? ->
@@ -38,8 +42,6 @@ class TodoListActivity : AppCompatActivity() {
             lista.mostrarTodasTarefas = isChecked
             todoList.adapter.notifyDataSetChanged()
         }
-
-        lista.nome = "LISTA"
 
         nomeListaText.text = lista.nome
 
@@ -93,7 +95,11 @@ class TodoListActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        lista = Utils.getLista(this)
+        Utils.getLista(this, nome).let {
+            if (it != null) {
+                lista = it
+            }
+        }
         (todoList.adapter as TodoListAdapter).lista = lista
         todoList.adapter.notifyDataSetChanged()
         setCounter()
