@@ -6,11 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".UltimaAulaActivity">
 
+
     <RelativeLayout
         android:id="@+id/cabeca"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
         android:background="@drawable/round_background">
 
         <Button
@@ -37,7 +39,7 @@
             android:layout_height="12dp"
             android:layout_alignTop="@+id/olhoEsquerdo"
             android:layout_alignEnd="@+id/olhoEsquerdo"
-            android:layout_margin="8dp"
+            android:layout_margin="24dp"
             android:visibility="gone"
             android:background="@android:color/black" />
 
@@ -67,27 +69,101 @@
             android:background="@android:color/holo_red_dark"
             android:layout_centerHorizontal="true"/>
 
+        <Button
+            android:id="@+id/nariz"
+            android:layout_width="16dp"
+            android:layout_height="44dp"
+            android:background="#cacaca"
+            android:layout_above="@+id/boca"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/retinaDireita1"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_alignTop="@+id/olhoDireito"
+            android:layout_alignRight="@+id/olhoDireito"
+            android:layout_margin="24dp"
+            android:background="#000000"/>
+
+        <Button
+            android:id="@+id/retinaDireita2"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_alignTop="@+id/olhoDireito"
+            android:layout_alignRight="@+id/olhoDireito"
+            android:layout_margin="8dp"
+            android:visibility="gone"
+            android:background="#000000"/>
+
+
+
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/bone"
+        android:layout_width="480dp"
+        android:layout_height="480dp"
+        android:layout_above="@+id/cabeca"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-120dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bone2" />
 
-    <RelativeLayout
+
+    <Button
         android:id="@+id/corpo"
-        android:layout_width="8dp"
+        android:layout_width="24dp"
         android:layout_height="64dp"
         android:background="#ffff00"
         android:layout_below="@+id/cabeca"
         android:layout_centerHorizontal="true"/>
 
     <Button
+        android:id="@+id/bracoEsquerdo"
         android:layout_width="48dp"
         android:layout_height="8dp"
         android:background="#ff00ff"
         android:layout_alignTop="@+id/corpo"
-        android:layout_alignEnd="@+id/corpo"
+        android:layout_toLeftOf="@+id/corpo"
         android:layout_marginTop="16dp"
-        android:layout_marginRight="8dp"/>
+        android:rotation="20"/>
 
     <Button
+        android:id="@+id/bracoEsquerdo2"
+        android:layout_width="48dp"
+        android:layout_height="8dp"
+        android:background="#ff00ff"
+        android:layout_alignTop="@+id/corpo"
+        android:layout_toLeftOf="@+id/corpo"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        android:rotation="-20"/>
+
+    <Button
+    android:id="@+id/bracoDireito"
+    android:layout_width="48dp"
+    android:layout_height="8dp"
+    android:background="#ff00ff"
+    android:layout_alignTop="@+id/corpo"
+    android:layout_toRightOf="@+id/corpo"
+    android:layout_marginTop="16dp"
+    android:rotation="-20"/>
+
+    <Button
+        android:id="@+id/bracoDireito2"
+        android:layout_width="48dp"
+        android:layout_height="8dp"
+        android:background="#ff00ff"
+        android:layout_alignTop="@+id/corpo"
+        android:layout_toRightOf="@+id/corpo"
+        android:layout_marginTop="24dp"
+        android:visibility="gone"
+        android:rotation="20"/>
+
+    <Button
+        android:id="@+id/pernaEsquerda"
         android:layout_width="8dp"
         android:layout_height="48dp"
         android:background="#fc0f00"
@@ -95,6 +171,38 @@
         android:layout_toLeftOf="@+id/corpo"
         android:layout_marginRight="8dp"
         android:rotation="22"/>
+
+    <Button
+        android:id="@+id/pernaEsquerda2"
+        android:layout_width="8dp"
+        android:layout_height="48dp"
+        android:background="#fc0f00"
+        android:layout_below="@+id/corpo"
+        android:layout_toLeftOf="@+id/corpo"
+        android:layout_marginRight="2dp"
+        android:visibility="gone"
+        android:rotation="3"/>
+
+    <Button
+        android:id="@+id/pernaDireita"
+        android:layout_width="8dp"
+        android:layout_height="48dp"
+        android:background="#fc0f00"
+        android:layout_below="@+id/corpo"
+        android:layout_toRightOf="@+id/corpo"
+        android:layout_marginLeft="8dp"
+        android:rotation="-22"/>
+
+    <Button
+        android:id="@+id/pernaDireita2"
+        android:layout_width="8dp"
+        android:layout_height="48dp"
+        android:background="#fc0f00"
+        android:layout_below="@+id/corpo"
+        android:layout_toRightOf="@+id/corpo"
+        android:layout_marginLeft="2dp"
+        android:visibility="gone"
+        android:rotation="-3"/>
 
 
 
